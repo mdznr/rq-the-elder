@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<title>RQ</title>
+<h1 id="songname"></h1>
+
+<audio id="music" onended="nextsong(false)"></audio>
+
+
+
+<a href="#" onclick="upload()">
+<img id = "addbutton" width="100" height="100" border="0" alt="add" src="add.png">
+</img>
+</a>
+
+<a href="#" id="play" onclick="togglemusic()">
+<img id = "playbutton" width="100" height="100" border="0" alt="play" src="play.png">
+</img>
+</a>
+
+<a href="#" id="next" onclick="nextsong(music.paused)">
+<img src="next.png" width="100" height="100" border="0" alt="next">
+</img>
+</a>
+
+<p id="addmusic"></p>
+
+<script type="text/javascript">
+count = 0;
+//var playlist = ["woe.mp3", "12-One Year, Six Months.mp3", "All Outta Angst.mp3", "door_open.ogg"];
+var playlist = []
+//var names = ["Woe", "One Year, Six Months", "All Outta Angst", "Door Opening"];
+var music = document.getElementById("music");
+var songname = document.getElementById("songname");
+var song = playlist[count];
+var playbutton = document.getElementById("playbutton");
+var paused = true
+var addbutton = document.getElementById("addbutton");
+var addsong = document.getElementById("addmusic");
+
+playbutton.src = "play.png";
+
+function filename(file){
+var slicevalue = file.lastIndexOf('/')+1;
+if (slicevalue == 0){slicevalue = file.lastIndexOf('\\')+1;};
+return file.slice(slicevalue);
+
+};
+
+function upload(){
+var icon = filename(addbutton.src)
+if (icon == "add.png"){
+	addbutton.src = "minus.png";
+	addsong.innerHTML = '<input id="file" type="file" accept=".mp3, .ogg"></input><input type="submit" onclick="addfile()"></input>';
+}else{
+	addbutton.src = "add.png";
+	addsong.innerHTML = "";
+};
+};
+
+function addfile(){
+playlist.push(filename(document.getElementById("file").value));
+alert(playlist)
+};
+
+function togglemusic(){
+	if (music.paused) {
+	music.play();
+	playbutton.src = "pause.png";
+	}
+	else {
+	music.pause();
+	playbutton.src = "play.png";
+	};
+	};
+function nextsong(paused){
+	if (count >= playlist.length){count = 0};
+	song = playlist[count];
+	songname.innerHTML= playlist[count];
+	music.src = song;
+	if (paused) {
+		music.pause();
+		playbutton.src = "play.png";
+	}
+	else {
+		music.play();
+		playbutton.src = "pause.png";
+	};
+count += 1;
+};
+</script>
+
+</html>
